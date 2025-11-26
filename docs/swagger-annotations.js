@@ -1820,3 +1820,67 @@
  *                   type: string
  *                   example: "Logged out successfully"
  */
+
+// ==================== HOME CONTENT ROUTES ====================
+
+/**
+ * @swagger
+ * /api/home-content:
+ *   get:
+ *     tags: [Content]
+ *     summary: Get home page content
+ *     responses:
+ *       200:
+ *         description: Home content
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   $ref: '#/components/schemas/HomeContent'
+ *   put:
+ *     tags: [Content]
+ *     summary: Update home page content (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               servicesSection:
+ *                 type: object
+ *                 properties:
+ *                   subtitle:
+ *                     type: string
+ *               premiumSection:
+ *                 type: object
+ *                 properties:
+ *                   subtitle:
+ *                     type: string
+ *               freeSection:
+ *                 type: object
+ *                 properties:
+ *                   subtitle:
+ *                     type: string
+ *     responses:
+ *       200:
+ *         description: Home content updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: Home content updated
+ *                 data:
+ *                   $ref: '#/components/schemas/HomeContent'
+ */

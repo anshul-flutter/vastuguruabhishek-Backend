@@ -217,6 +217,40 @@ const options = {
 						message: { type: "string", example: "Error message" },
 					},
 				},
+				HomeContent: {
+					type: "object",
+					properties: {
+						servicesSection: {
+							type: "object",
+							properties: {
+								title: { type: "string" },
+								subtitle: { type: "string" },
+								items: {
+									type: "array",
+									items: {
+										type: "object",
+										properties: {
+											label: { type: "string" },
+											description: { type: "string" },
+											icon: { type: "string" },
+										},
+									},
+								},
+							},
+						},
+						premiumSection: {
+							$ref: "#/components/schemas/HomeContent/properties/servicesSection",
+						},
+						freeSection: {
+							$ref: "#/components/schemas/HomeContent/properties/servicesSection",
+						},
+						updatedBy: { type: "string" },
+						createdAt: { type: "string", format: "date-time" },
+						updatedAt: { type: "string", format: "date-time" },
+						_id: { type: "string" },
+						__v: { type: "number" },
+					},
+				},
 			},
 		},
 		tags: [
@@ -266,6 +300,7 @@ const options = {
 				description: "Roles: User (view/delete/mark), Admin (create/bulk)",
 			},
 			{ name: "User", description: "Roles: User (profile, logout)" },
+			{ name: "Content", description: "Roles: Public (GET), Admin (update)" },
 		],
 	},
 	apis: ["./routes/*.js", "./controllers/**/*.js", "./docs/*.js"], // Path to the API routes
