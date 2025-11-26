@@ -6,6 +6,18 @@ const courseContentSchema = new mongoose.Schema({
 	video: { type: String },
 });
 
+const materialSchema = new mongoose.Schema({
+	title: { type: String, required: true },
+	type: {
+		type: String,
+		enum: ["pdf", "doc", "video", "link", "image"],
+		required: true,
+	},
+	url: { type: String, required: true },
+	isPublic: { type: Boolean, default: false },
+	uploadedAt: { type: Date, default: Date.now },
+});
+
 const courseSchema = new mongoose.Schema(
 	{
 		title: { type: String, required: true },
@@ -41,11 +53,15 @@ const courseSchema = new mongoose.Schema(
 		relatedTopics: [{ type: String }],
 		courseIncludes: [{ type: String }],
 		courseContent: [courseContentSchema], // lessons with video
+		materials: [materialSchema], // Course materials (PDFs, docs, extra videos)
 		requirements: [{ type: String }],
 		detailedDescription: [{ type: String }],
 
 		// Single instructor reference (the main astrologer)
-		instructor: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
+		instructor: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+		// Course Start Date
+		courseStart: { type: Date },
 	},
 	{ timestamps: true }
 );

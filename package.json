@@ -8,7 +8,8 @@
 		"dev": "nodemon index.js",
 		"start": "node index.js",
 		"export:static": "node scripts/exportStaticData.js > static-export.json",
-		"import:static": "node scripts/importStaticData.js static-export.json"
+		"import:static": "node scripts/importStaticData.js static-export.json",
+		"fix:pdfs": "node scripts/rehydratePdfMaterials.js"
 	},
 	"author": "Alpixn pvt ltd",
 	"license": "ISC",

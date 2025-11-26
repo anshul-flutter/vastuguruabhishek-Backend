@@ -1,7 +1,6 @@
 import Cart from "../../model/CartModel.js";
 import Course from "../../model/CourseModel.js";
 import Book from "../../model/BookModel.js";
-import Consultation from "../../model/ConsultationModel.js";
 import Service from "../../model/ServiceModel.js";
 
 export const addProduct = async (req, res) => {
@@ -44,7 +43,8 @@ export const addProduct = async (req, res) => {
 				itemData = await Book.findById(itemId);
 				break;
 			case "Consultation":
-				itemData = await Consultation.findById(itemId);
+				// Consultations are now stored in Service model
+				itemData = await Service.findById(itemId);
 				break;
 			case "Service":
 				itemData = await Service.findById(itemId);

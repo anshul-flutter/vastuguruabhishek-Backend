@@ -43,6 +43,7 @@ export const normaliseEventPayload = (rawPayload = {}, defaults = {}) => {
 		createdBy: null,
 		thumbnail: undefined,
 		thumbnailPublicId: undefined,
+		link: undefined,
 		...defaults,
 	};
 
@@ -51,6 +52,7 @@ export const normaliseEventPayload = (rawPayload = {}, defaults = {}) => {
 	return {
 		title: rawPayload.title ?? base.title,
 		description: rawPayload.description ?? base.description,
+		link: rawPayload.link ?? base.link,
 		startTime: rawPayload.startTime
 			? new Date(rawPayload.startTime)
 			: base.startTime,

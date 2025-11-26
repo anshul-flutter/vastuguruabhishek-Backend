@@ -6,6 +6,10 @@ import { getEnrolledCourses } from "../controllers/Course/GetEnrolledCourses.js"
 import { getStudentCourseProgress } from "../controllers/Course/GetStudentProgress.js";
 import { editCourse } from "../controllers/Course/EditCourse.js";
 import { deleteCourse } from "../controllers/Course/DeleteCourse.js";
+import {
+	addMaterial,
+	removeMaterial,
+} from "../controllers/Course/CourseMaterialController.js";
 import { adminMiddleware } from "../middlewares/adminAuthMiddleware.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
@@ -66,6 +70,10 @@ const router = Router();
  *                 type: array
  *                 items:
  *                   type: string
+ *               courseStart:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Start date of the course
  *     responses:
  *       201:
  *         description: Course created successfully
@@ -237,6 +245,9 @@ router.get("/progress/:courseId", authMiddleware, getStudentCourseProgress);
  *                 items:
  *                   type: string
  *                   format: binary
+ *               courseStart:
+ *                 type: string
+ *                 format: date-time
  *     responses:
  *       200:
  *         description: Course updated successfully
@@ -277,5 +288,18 @@ router.put("/:id", adminMiddleware, uploadCourseAssets, editCourse);
 
 router.delete("/delete/:id", adminMiddleware, deleteCourse);
 router.delete("/:id", adminMiddleware, deleteCourse);
+
+// Course Materials Routes
+router.post(
+	"/:courseId/materials",
+	adminMiddleware,
+	upload.single("file"),
+	addMaterial
+);
+router.delete(
+	"/:courseId/materials/:materialId",
+	adminMiddleware,
+	removeMaterial
+);
 
 export default router;

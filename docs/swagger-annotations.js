@@ -3,222 +3,7 @@
  * Import this file in your route files or reference it in swagger config
  */
 
-// ==================== PRODUCT ROUTES ====================
-
-/**
- * @swagger
- * /api/products:
- *   get:
- *     tags: [Products]
- *     summary: Get all products
- *     description: Retrieve all products with optional filters
- *     parameters:
- *       - in: query
- *         name: category
- *         schema:
- *           type: string
- *           enum: [Gemstones, Rudraksha, Pooja Items, Spiritual Books, Color Gemstone, Other]
- *         description: Filter by category
- *       - in: query
- *         name: isFeatured
- *         schema:
- *           type: boolean
- *         description: Filter featured products
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *     responses:
- *       200:
- *         description: Products retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: boolean
- *                   example: true
- *                 products:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Product'
- *   post:
- *     tags: [Products]
- *     summary: Create new product (Admin only)
- *     security:
- *       - cookieAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required:
- *               - title
- *               - category
- *               - price
- *               - quantity
- *             properties:
- *               title:
- *                 type: string
- *                 example: "Rudraksha Mala"
- *               description:
- *                 type: string
- *               category:
- *                 type: string
- *                 enum: [Gemstones, Rudraksha, Pooja Items, Spiritual Books, Color Gemstone, Other]
- *               price:
- *                 type: number
- *                 example: 499
- *               quantity:
- *                 type: number
- *                 example: 50
- *               productCode:
- *                 type: string
- *                 example: "RUD-108"
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *               isFeatured:
- *                 type: boolean
- *     responses:
- *       201:
- *         description: Product created successfully
- *       401:
- *         description: Unauthorized
- *
- * /api/products/{id}:
- *   get:
- *     tags: [Products]
- *     summary: Get product by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Product details
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Product'
- *       404:
- *         description: Product not found
- *   put:
- *     tags: [Products]
- *     summary: Update product (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *               price:
- *                 type: number
- *               quantity:
- *                 type: number
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *     responses:
- *       200:
- *         description: Product updated successfully
- *   delete:
- *     tags: [Products]
- *     summary: Delete product (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Product deleted successfully
- *
- * /api/products/code/{code}:
- *   get:
- *     tags: [Products]
- *     summary: Get product by product code
- *     parameters:
- *       - in: path
- *         name: code
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Product found
- *       404:
- *         description: Product not found
- *
- * /api/products/stats:
- *   get:
- *     tags: [Products]
- *     summary: Get product statistics (Admin only)
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: Product statistics
- *
- * /api/products/{id}/reviews:
- *   post:
- *     tags: [Products]
- *     summary: Add product review
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - rating
- *               - comment
- *             properties:
- *               rating:
- *                 type: number
- *                 minimum: 1
- *                 maximum: 5
- *                 example: 5
- *               comment:
- *                 type: string
- *                 example: "Excellent product!"
- *     responses:
- *       201:
- *         description: Review added successfully
- */
+// Product APIs have been removed. Packages are modelled as Services with serviceType=package.
 
 // ==================== BLOG ROUTES ====================
 
@@ -747,102 +532,7 @@
  *         description: Service deleted
  */
 
-// ==================== CONSULTATION ROUTES ====================
-
-/**
- * @swagger
- * /api/consultations:
- *   get:
- *     tags: [Consultations]
- *     summary: Get all consultations (Admin only)
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: List of consultations
- *   post:
- *     tags: [Consultations]
- *     summary: Create consultation (Admin only)
- *     security:
- *       - cookieAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - userId
- *               - date
- *               - time
- *             properties:
- *               userId:
- *                 type: string
- *               date:
- *                 type: string
- *                 format: date
- *               time:
- *                 type: string
- *               notes:
- *                 type: string
- *     responses:
- *       201:
- *         description: Consultation created
- *
- * /api/consultations/stats:
- *   get:
- *     tags: [Consultations]
- *     summary: Get consultation statistics (Admin only)
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: Consultation statistics
- *
- * /api/consultations/{id}:
- *   get:
- *     tags: [Consultations]
- *     summary: Get consultation by ID (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Consultation details
- *   put:
- *     tags: [Consultations]
- *     summary: Update consultation (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Consultation updated
- *   delete:
- *     tags: [Consultations]
- *     summary: Delete consultation (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Consultation deleted
- */
+// ==================== CONSULTATION ROUTES REMOVED ====================
 
 // ==================== BOOK ROUTES ====================
 
@@ -1003,86 +693,7 @@
  *         description: Podcast deleted
  */
 
-// ==================== INSTRUCTOR ROUTES ====================
-
-/**
- * @swagger
- * /api/instructors:
- *   get:
- *     tags: [Instructors]
- *     summary: Get all instructors
- *     responses:
- *       200:
- *         description: List of instructors
- *   post:
- *     tags: [Instructors]
- *     summary: Create instructor (Admin only)
- *     security:
- *       - cookieAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - bio
- *             properties:
- *               name:
- *                 type: string
- *               bio:
- *                 type: string
- *               expertise:
- *                 type: array
- *                 items:
- *                   type: string
- *     responses:
- *       201:
- *         description: Instructor created
- *
- * /api/instructors/{id}:
- *   get:
- *     tags: [Instructors]
- *     summary: Get instructor by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Instructor details
- *   put:
- *     tags: [Instructors]
- *     summary: Update instructor (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Instructor updated
- *   delete:
- *     tags: [Instructors]
- *     summary: Delete instructor (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Instructor deleted
- */
+// ==================== INSTRUCTOR ROUTES REMOVED ====================
 
 // ==================== BANNER ROUTES ====================
 
@@ -1293,84 +904,7 @@
  *         description: Testimonial rejected
  */
 
-// ==================== TICKET ROUTES ====================
-
-/**
- * @swagger
- * /api/ticket:
- *   post:
- *     tags: [Tickets]
- *     summary: Create support ticket
- *     security:
- *       - cookieAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - subject
- *               - description
- *             properties:
- *               subject:
- *                 type: string
- *                 example: "Issue with course enrollment"
- *               description:
- *                 type: string
- *               priority:
- *                 type: string
- *                 enum: [low, medium, high]
- *     responses:
- *       201:
- *         description: Ticket created successfully
- *   get:
- *     tags: [Tickets]
- *     summary: Get all tickets (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: query
- *         name: status
- *         schema:
- *           type: string
- *           enum: [open, closed, in-progress]
- *     responses:
- *       200:
- *         description: List of tickets
- *   put:
- *     tags: [Tickets]
- *     summary: Update ticket (Admin only)
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: Ticket updated
- *   delete:
- *     tags: [Tickets]
- *     summary: Delete ticket (Admin only)
- *     security:
- *       - cookieAuth: []
- *     responses:
- *       200:
- *         description: Ticket deleted
- *
- * /api/ticket/{id}:
- *   get:
- *     tags: [Tickets]
- *     summary: Get ticket by ID (Admin only)
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Ticket details
- */
+// ==================== TICKET ROUTES REMOVED ====================
 
 // ==================== ADMIN ROUTES ====================
 
@@ -1475,6 +1009,26 @@
  *     responses:
  *       200:
  *         description: Customer updated
+ *
+ * /api/admin/courses/stats:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Get course statistics (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Course statistics
+ *
+ * /api/admin/orders/stats:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Get order statistics (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Order statistics
  */
 
 // ==================== CONTACT ROUTES ====================
@@ -1799,6 +1353,414 @@
  *     responses:
  *       200:
  *         description: Notification marked as read
+ */
+
+// ==================== SESSION ROUTES ====================
+
+/**
+ * @swagger
+ * /api/sessions/my-sessions:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get student's sessions
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: List of sessions
+ *
+ * /api/sessions/{courseId}/sessions:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get sessions for a course
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: courseId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of sessions
+ *
+ * /api/sessions/{sessionId}:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get session by ID
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session details
+ *
+ * /api/sessions/{sessionId}/join:
+ *   post:
+ *     tags: [Sessions]
+ *     summary: Join a session
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Joined session successfully
+ *
+ * /api/sessions/{sessionId}/leave:
+ *   post:
+ *     tags: [Sessions]
+ *     summary: Leave a session
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Left session successfully
+ *
+ * /api/sessions/{sessionId}/recording:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get session recording
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session recording URL
+ *
+ * /api/admin/sessions:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get all sessions (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all sessions
+ *   post:
+ *     tags: [Sessions]
+ *     summary: Create a session (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - courseId
+ *               - title
+ *               - startTime
+ *             properties:
+ *               courseId:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               startTime:
+ *                 type: string
+ *                 format: date-time
+ *               duration:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Session created
+ *
+ * /api/admin/sessions/{sessionId}:
+ *   put:
+ *     tags: [Sessions]
+ *     summary: Update session (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session updated
+ *   delete:
+ *     tags: [Sessions]
+ *     summary: Delete session (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session deleted
+ *
+ * /api/admin/sessions/{sessionId}/start:
+ *   post:
+ *     tags: [Sessions]
+ *     summary: Start session (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session started
+ *
+ * /api/admin/sessions/{sessionId}/end:
+ *   post:
+ *     tags: [Sessions]
+ *     summary: End session (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session ended
+ *
+ * /api/admin/sessions/{sessionId}/attendance:
+ *   get:
+ *     tags: [Sessions]
+ *     summary: Get session attendance (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session attendance list
+ *
+ * /api/admin/sessions/{sessionId}/recording:
+ *   post:
+ *     tags: [Sessions]
+ *     summary: Upload session recording (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Recording uploaded
+ *   delete:
+ *     tags: [Sessions]
+ *     summary: Remove session recording (Admin only)
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: sessionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Recording removed
+ */
+
+// ==================== PAYMENT ROUTES ====================
+
+/**
+ * @swagger
+ * /api/payments/payu/initiate:
+ *   post:
+ *     tags: [Payments]
+ *     summary: Initiate PayU payment
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Payment initiated, returns PayU form data
+ *
+ * /api/payments/payu/callback:
+ *   post:
+ *     tags: [Payments]
+ *     summary: PayU callback URL
+ *     description: Handle PayU success/failure response
+ *     responses:
+ *       200:
+ *         description: Callback processed
+ *
+ * /api/payments/payu/verify-order/{orderId}:
+ *   get:
+ *     tags: [Payments]
+ *     summary: Verify order payment status
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Payment verification result
+ */
+
+// ==================== KUNDLI ROUTES ====================
+
+/**
+ * @swagger
+ * /api/kundli/generate:
+ *   post:
+ *     tags: [Kundli]
+ *     summary: Generate complete Kundli
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - day
+ *               - month
+ *               - year
+ *               - hour
+ *               - min
+ *               - lat
+ *               - lon
+ *               - tzone
+ *             properties:
+ *               day:
+ *                 type: number
+ *               month:
+ *                 type: number
+ *               year:
+ *                 type: number
+ *               hour:
+ *                 type: number
+ *               min:
+ *                 type: number
+ *               lat:
+ *                 type: number
+ *               lon:
+ *                 type: number
+ *               tzone:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Kundli data generated
+ *
+ * /api/kundli/planets:
+ *   post:
+ *     tags: [Kundli]
+ *     summary: Get planetary positions
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Planetary positions
+ *
+ * /api/kundli/chart:
+ *   post:
+ *     tags: [Kundli]
+ *     summary: Get birth chart SVG
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Chart SVG
+ *
+ * /api/kundli/nakshatra:
+ *   post:
+ *     tags: [Kundli]
+ *     summary: Get nakshatra details
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Nakshatra details
+ *
+ * /api/kundli/dasha:
+ *   post:
+ *     tags: [Kundli]
+ *     summary: Get dasha details
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Dasha details
+ */
+
+// ==================== CHAT ROUTES ====================
+
+/**
+ * @swagger
+ * /api/chats/chat:
+ *   get:
+ *     tags: [Chat]
+ *     summary: Get chat messages
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: targetUserId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Chat history
  */
 
 // ==================== USER ROUTES ====================

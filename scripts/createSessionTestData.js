@@ -13,9 +13,10 @@ if (process.env.ALLOW_LEGACY_SEED !== "true") {
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Instructor from "../model/InstructorModel.js";
 import Course from "../model/CourseModel.js";
 import CourseSession from "../model/CourseSessionModel.js";
+import User from "../model/UserModel.js";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -25,41 +26,35 @@ const createTestData = async () => {
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log("Connected to MongoDB");
 
-		// 1. Create a test instructor if none exists
-		const instructorCount = await Instructor.countDocuments();
-		if (instructorCount === 0) {
-			const instructor = new Instructor({
-				name: "Dr. Raj Kumar",
-				bio: "Expert Vedic Astrologer with 15+ years of experience",
-				specialties: ["Vedic Astrology", "Vastu Shastra", "Numerology"],
-				rating: 4.8,
-				students: 150,
+		// 1. Create or find an instructor (User with role 'astrologer' or 'admin')
+		let instructor = await User.findOne({
+			email: "instructor@example.com",
+		});
+		if (!instructor) {
+			instructor = await User.create({
+				name: "Test Instructor",
+				email: "instructor@example.com",
+				password: "password123",
+				role: "astrologer",
+				bio: "Expert Astrologer",
+				expertise: ["Vedic", "KP"],
 			});
-			await instructor.save();
-			console.log("✅ Test instructor created");
+			console.log("Created new instructor user:", instructor._id);
 		} else {
-			console.log(`✅ Found ${instructorCount} instructor(s)`);
+			console.log("Found existing instructor user:", instructor._id);
 		}
 
-		// 2. Check courses
-		const courseCount = await Course.countDocuments();
-		if (courseCount === 0) {
-			const course = new Course({
-				title: "Vedic Astrology Basics",
-				description: "Learn the fundamentals of Vedic Astrology",
-				category: "Astrology",
-				price: 999,
-				instructor: (await Instructor.findOne())._id,
-				duration: 8, // 8 weeks
-				isActive: true,
-			});
-			await course.save();
-			console.log("✅ Test course created");
-		} else {
-			console.log(`✅ Found ${courseCount} course(s)`);
-		}
-
-		// 3. Create test sessions with different statuses and times
+		// 2. Create a course linked to this instructor
+		const course = await Course.create({
+			title: "Advanced Vedic Astrology Session Test",
+			description: "A course to test session functionality",
+			instructor: instructor._id,
+			price: 4999,
+			category: "Astrology",
+			thumbnail: "https://placehold.co/600x400",
+			language: "Hindi",
+			level: "Advanced",
+		}); // 3. Create test sessions with different statuses and times
 		const sessionCount = await CourseSession.countDocuments();
 		if (sessionCount === 0) {
 			const instructor = await Instructor.findOne();

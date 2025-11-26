@@ -19,17 +19,22 @@ const fileFilter = (req, file, cb) => {
 
 	const allowedImageTypes = /jpeg|jpg|png|webp/;
 	const allowedVideoTypes = /mp4|mov|avi|mkv/;
+	const allowedDocTypes = /pdf|doc|docx|txt/;
 
 	const ext = file.originalname.split(".").pop().toLowerCase();
 
-	if (allowedImageTypes.test(ext) || allowedVideoTypes.test(ext)) {
+	if (
+		allowedImageTypes.test(ext) ||
+		allowedVideoTypes.test(ext) ||
+		allowedDocTypes.test(ext)
+	) {
 		console.log("File accepted:", file.originalname);
 		cb(null, true);
 	} else {
 		console.log("File rejected - invalid extension:", ext);
 		cb(
 			new Error(
-				"Only images (.jpeg, .jpg, .png, .webp) and videos (.mp4, .mov, .avi, .mkv) are allowed"
+				"Only images, videos, and documents (pdf, doc, docx, txt) are allowed"
 			),
 			false
 		);

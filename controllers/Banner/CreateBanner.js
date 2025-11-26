@@ -29,6 +29,7 @@ export const createBanner = async (req, res) => {
 			title: req.body.title,
 			description: req.body.description,
 			buttonText: req.body.buttonText || "Learn More",
+			link: req.body.link,
 			background: req.body.background || "#bb1401",
 			image: imageUrl,
 			cloudinary_id: publicId,

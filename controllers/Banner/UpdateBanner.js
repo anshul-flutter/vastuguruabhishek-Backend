@@ -43,6 +43,7 @@ export const updateBanner = async (req, res) => {
 		banner.title = req.body.title || banner.title;
 		banner.description = req.body.description || banner.description;
 		banner.buttonText = req.body.buttonText || banner.buttonText;
+		banner.link = req.body.link || banner.link;
 		banner.background = req.body.background || banner.background;
 		banner.image = imageUrl;
 		banner.cloudinary_id = publicId;

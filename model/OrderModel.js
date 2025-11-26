@@ -26,7 +26,7 @@ const orderItemSchema = new mongoose.Schema({
 	courseDetails: {
 		duration: Number,
 		lessons: Number,
-		instructor: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
+		instructor: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 		// 🆕 Student Booking fields (migrated from StudentBookingModel)
 		sessionDate: Date,
 		sessionTime: String,

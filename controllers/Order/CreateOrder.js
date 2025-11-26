@@ -2,7 +2,6 @@ import Order from "../../model/OrderModel.js";
 import Cart from "../../model/CartModel.js";
 import Course from "../../model/CourseModel.js";
 import Book from "../../model/BookModel.js";
-import Consultation from "../../model/ConsultationModel.js";
 import Service from "../../model/ServiceModel.js";
 import {
 	notifyAdminNewOrder,
@@ -49,8 +48,9 @@ export const createOrder = async (req, res) => {
 					itemModel = "Book";
 					break;
 				case "package":
-					itemData = await Consultation.findById(item.itemId);
-					itemModel = "Consultation";
+					// Packages/Consultations are now stored in Service model
+					itemData = await Service.findById(item.itemId);
+					itemModel = "Service";
 					break;
 				case "service":
 					itemData = await Service.findById(item.itemId);
@@ -95,8 +95,8 @@ export const createOrder = async (req, res) => {
 				};
 			} else if (itemType === "package") {
 				orderItem.packageDetails = {
-					consultationType: itemData.type,
-					duration: itemData.duration,
+					consultationType: itemData.subCategory || "astrology",
+					duration: itemData.duration || 60,
 					meetingMode: item.meetingMode || "online",
 					scheduledDate: item.scheduledDate,
 					scheduledTime: item.scheduledTime,

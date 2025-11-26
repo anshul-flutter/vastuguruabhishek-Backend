@@ -11,6 +11,15 @@ export const getProducts = async (req, res) => {
 
 		if (!cart) {
 			cart = { items: [] }; // return empty cart structure
+		} else {
+			// Filter out items where the referenced product (itemId) no longer exists
+			// This happens if an admin deletes a product that is in a user's cart
+			const originalLength = cart.items.length;
+			cart.items = cart.items.filter((item) => item.itemId !== null);
+
+			if (cart.items.length !== originalLength) {
+				await cart.save();
+			}
 		}
 
 		res.status(200).json({

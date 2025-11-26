@@ -1,6 +1,6 @@
 import CourseSession from "../../model/CourseSessionModel.js";
 import Course from "../../model/CourseModel.js";
-import Instructor from "../../model/InstructorModel.js";
+import User from "../../model/UserModel.js";
 import Order from "../../model/OrderModel.js";
 import StudentProgress from "../../model/StudentProgressModel.js";
 import { generateRtcToken, isTokenExpired } from "../../utils/agoraToken.js";
@@ -17,7 +17,6 @@ export const createSession = async (req, res) => {
 	try {
 		const {
 			courseId,
-			instructorId,
 			title,
 			description,
 			sessionNumber,
@@ -37,15 +36,6 @@ export const createSession = async (req, res) => {
 			});
 		}
 
-		// Validate instructor exists
-		const instructor = await Instructor.findById(instructorId);
-		if (!instructor) {
-			return res.status(404).json({
-				success: false,
-				message: "Instructor not found",
-			});
-		}
-
 		// Get enrolled students for this course
 		const enrolledOrders = await Order.find({
 			"items.itemId": courseId,
@@ -60,7 +50,7 @@ export const createSession = async (req, res) => {
 		// Create session
 		const session = new CourseSession({
 			course: courseId,
-			instructor: instructorId,
+			instructor: req.user._id,
 			title,
 			description,
 			sessionNumber,

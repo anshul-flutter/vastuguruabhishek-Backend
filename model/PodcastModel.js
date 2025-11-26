@@ -8,6 +8,11 @@ const PodcastSchema = new mongoose.Schema(
 		description: { type: String },
 		category: { type: String, default: "Astrology" },
 		tags: [{ type: String }],
+		type: {
+			type: String,
+			enum: ["podcast", "free_course"],
+			default: "podcast",
+		},
 	},
 	{ timestamps: true }
 );

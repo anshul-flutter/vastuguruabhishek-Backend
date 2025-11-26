@@ -7,7 +7,7 @@ const courseSessionSchema = new Schema(
 	{
 		// Basic Session Info
 		course: { type: Types.ObjectId, ref: "Course", required: true },
-		instructor: { type: Types.ObjectId, ref: "Instructor", required: true },
+		instructor: { type: Types.ObjectId, ref: "User", required: true },
 		title: { type: String, required: true },
 		description: { type: String },
 		sessionNumber: { type: Number, required: true }, // Session order in course

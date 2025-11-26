@@ -12,28 +12,12 @@ import connectDB from "../config/db.js";
 import User from "../model/UserModel.js";
 import Course from "../model/CourseModel.js";
 import CourseSession from "../model/CourseSessionModel.js";
-import Instructor from "../model/InstructorModel.js";
 import StudentProgress from "../model/StudentProgressModel.js";
 
 const ensureUserByEmail = async (payload) => {
 	const existing = await User.findOne({ email: payload.email });
 	if (existing) return existing;
 	return User.create(payload);
-};
-
-const ensureInstructor = async () => {
-	let instructor = await Instructor.findOne();
-	if (!instructor) {
-		instructor = await Instructor.create({
-			name: "Dr. Raj Kumar",
-			bio: "Expert Vedic Astrologer with 15+ years of experience mentoring thousands of students.",
-			profileImage: "/images/aditi.png",
-			specialties: ["Vedic Astrology", "Vastu Shastra", "Numerology"],
-			rating: 4.9,
-			students: 1200,
-		});
-	}
-	return instructor;
 };
 
 const upsertCourse = async ({ adminId, instructorId }) => {
@@ -237,15 +221,15 @@ const main = async () => {
 			role: "student",
 		});
 
-		const instructor = await ensureInstructor();
+		// Use admin as instructor
 		const course = await upsertCourse({
 			adminId: admin._id,
-			instructorId: instructor._id,
+			instructorId: admin._id,
 		});
 
 		await createSessionsIfMissing({
 			courseId: course._id,
-			instructorId: instructor._id,
+			instructorId: admin._id,
 			studentId: student._id,
 		});
 

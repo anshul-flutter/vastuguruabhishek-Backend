@@ -12,12 +12,19 @@ import { getCustomerOrders } from "../controllers/Admin/getCustomerOrders.js";
 import { adminMiddleware } from "../middlewares/adminAuthMiddleware.js";
 import { getCourseStats } from "../controllers/Admin/getCourseStats.js";
 import { getOrderStats } from "../controllers/Admin/getOrderStats.js";
+import {
+	deleteUser,
+	updateUserRole,
+} from "../controllers/Admin/manageUsers.js";
 
 const router = express.Router();
 
 // All admin routes now use the unified auth system
 // Users with role "admin" or "astrologer" can access these routes
 router.get("/users", adminMiddleware, getUsers);
+router.delete("/users/:id", adminMiddleware, deleteUser);
+router.put("/users/:id/role", adminMiddleware, updateUserRole);
+
 router.get("/students/reports", adminMiddleware, getStudentReports);
 router.get("/students/bookings", adminMiddleware, getStudentBookings);
 router.get("/students/progress", adminMiddleware, getStudentProgress);

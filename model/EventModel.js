@@ -4,6 +4,7 @@ const eventSchema = new mongoose.Schema(
 	{
 		title: { type: String, required: true },
 		description: { type: String },
+		link: { type: String },
 
 		// Event timing
 		startTime: { type: Date, required: true },

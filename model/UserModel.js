@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema(
 			enum: ["student", "astrologer", "admin"], // astrologer is the single admin who manages content
 			default: "student",
 		},
+		// Instructor/Astrologer specific fields
+		bio: {
+			type: String,
+			trim: true,
+		},
+		expertise: [{ type: String }],
 		profileImage: {
 			type: String,
 			default: null,

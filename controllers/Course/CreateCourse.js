@@ -45,6 +45,11 @@ export const createCourse = async (req, res) => {
 			courseData.createdBy = req.user._id;
 		}
 
+		// Handle courseStart date
+		if (coursePayload.courseStart) {
+			courseData.courseStart = new Date(coursePayload.courseStart);
+		}
+
 		// 1️⃣ Upload course image if exists
 		if (req.files?.image?.[0]?.buffer) {
 			const result = await uploadToCloudinary(

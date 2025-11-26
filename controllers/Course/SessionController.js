@@ -1,5 +1,4 @@
 import CourseSession from "../../model/CourseSessionModel.js";
-import Course from "../../model/CourseModel.js";
 import StudentProgress from "../../model/StudentProgressModel.js";
 import Order from "../../model/OrderModel.js";
 import { generateRtcToken } from "../../utils/agoraToken.js";
@@ -369,23 +368,45 @@ export const joinSession = async (req, res) => {
 			}
 		}
 
-		// For students only: mark attendance and update progress
+		// For students only: mark attendance and update per-user progress
 		if (!isHost) {
 			await session.markAttendance(studentId);
-
-			const progress = await StudentProgress.findOne({
-				student: studentId,
-				course: session.course._id,
-			});
-
-			if (progress) {
-				progress.sessionProgress.totalSessions =
-					await CourseSession.countDocuments({
-						course: session.course._id,
-						isActive: true,
-					});
-				await progress.save();
-			}
+			const [totalSessions, attendedSessions] = await Promise.all([
+				CourseSession.countDocuments({
+					course: session.course._id,
+					isActive: true,
+					status: { $ne: "cancelled" },
+				}),
+				CourseSession.countDocuments({
+					course: session.course._id,
+					isActive: true,
+					status: "completed",
+					"attendedStudents.student": studentId,
+				}),
+			]);
+			const attendancePercentage =
+				totalSessions > 0
+					? Math.round((attendedSessions / totalSessions) * 100)
+					: 0;
+			const status =
+				attendancePercentage >= 100
+					? "Completed"
+					: attendancePercentage >= 50
+					? "On Track"
+					: "Behind";
+			await StudentProgress.findOneAndUpdate(
+				{ student: studentId, course: session.course._id },
+				{
+					$set: {
+						progressPercent: attendancePercentage,
+						status,
+						"sessionProgress.totalSessions": totalSessions,
+						"sessionProgress.attendedSessions": attendedSessions,
+						"sessionProgress.attendancePercentage": attendancePercentage,
+					},
+				},
+				{ upsert: true }
+			);
 		}
 
 		// Prepare Agora join details per-user (publisher role, deterministic uid)

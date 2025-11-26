@@ -3,27 +3,28 @@ import Podcast from "../../model/PodcastModel.js";
 // Create a podcast
 export const addPodcast = async (req, res) => {
 	try {
-		const { title, url, description, category, tags } = req.body;
+		const { title, url, description, category, tags, type } = req.body;
 		const podcast = await Podcast.create({
 			title,
 			url,
 			description,
 			category,
 			tags,
+			type: type || "podcast",
 		});
 
 		res.status(201).json({
 			status: true,
 			code: 201,
-			message: "Podcast created successfully",
+			message: "Created successfully",
 			data: podcast,
 		});
 	} catch (err) {
-		console.error("Error creating podcast:", err);
+		console.error("Error creating content:", err);
 		res.status(400).json({
 			status: false,
 			code: 400,
-			message: "Failed to create podcast",
+			message: "Failed to create content",
 			error: err.message,
 		});
 	}
@@ -32,21 +33,27 @@ export const addPodcast = async (req, res) => {
 // Get all podcasts
 export const getPodcasts = async (req, res) => {
 	try {
-		const podcasts = await Podcast.find().sort({ createdAt: -1 });
+		const { type } = req.query;
+		const query = {};
+		if (type) {
+			query.type = type;
+		}
+
+		const podcasts = await Podcast.find(query).sort({ createdAt: -1 });
 
 		res.status(200).json({
 			status: true,
 			code: 200,
-			message: "Podcasts fetched successfully",
+			message: "Fetched successfully",
 			count: podcasts.length,
 			data: podcasts,
 		});
 	} catch (err) {
-		console.error("Error fetching podcasts:", err);
+		console.error("Error fetching content:", err);
 		res.status(400).json({
 			status: false,
 			code: 400,
-			message: "Failed to fetch podcasts",
+			message: "Failed to fetch content",
 			error: err.message,
 		});
 	}

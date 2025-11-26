@@ -19,6 +19,9 @@ const serviceSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		duration: {
+			type: Number, // in minutes, for consultations
+		},
 		originalPrice: {
 			type: Number,
 		},

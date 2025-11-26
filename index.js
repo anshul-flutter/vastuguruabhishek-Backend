@@ -13,10 +13,8 @@ import ticketRoutes from "./routes/ticketroutes.js";
 import adminRoutes from "./routes/adminRoute.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import podcastRoutes from "./routes/podcastRoutes.js";
-import instructorRoutes from "./routes/instructorRoutes.js";
 import numerologyRoutes from "./routes/numerologyRoutes.js";
 import kundliRoutes from "./routes/kundliRoutes.js";
-import consultationRoutes from "./routes/consultationRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import logout from "./routes/logOut.js";
@@ -30,6 +28,7 @@ import testimonialRoutes from "./routes/testimonialRoutes.js";
 import chatRouter from "./routes/chat.js";
 import forumRoutes from "./routes/forumRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import homeContentRoutes from "./routes/homeContentRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 // 🆕 Session management routes
@@ -50,12 +49,11 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:5173", // local dev frontend
-			"https://103bec500c90.ngrok-free.app",
 			process.env.CLIENT_URL, // deployed frontend
 			process.env.API_URL, // deployed  backend
 		], // Froned URL, * for any url
 		credentials: true,
-		methods: ["GET", "POST", "PUT", "DELETE"],
+		methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 	})
 );
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -92,10 +90,8 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/chats", chatRouter);
 app.use("/api/podcasts", podcastRoutes);
-app.use("/api/instructors", instructorRoutes);
 app.use("/api/numerology", numerologyRoutes);
 app.use("/api/kundli", kundliRoutes);
-app.use("/api/consultations", consultationRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api", testimonialRoutes);
@@ -103,6 +99,7 @@ app.use("/api/logout", logout);
 app.use("/api/me", currentUser);
 app.use("/api/forums", forumRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api", homeContentRoutes);
 // 🆕 Session routes
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/admin", sessionAdminRoutes);

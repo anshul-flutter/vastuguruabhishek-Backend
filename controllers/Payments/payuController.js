@@ -154,7 +154,7 @@ export const initiatePayU = async (req, res) => {
 			if (upperType === "Course") itemModel = "Course";
 			else if (upperType === "Book") itemModel = "Book";
 			else if (upperType === "Service") itemModel = "Service";
-			else if (upperType === "Consultation") itemModel = "Consultation";
+			else if (upperType === "Consultation") itemModel = "Service"; // Map Consultation to Service
 
 			return {
 				itemType,
