@@ -19,10 +19,10 @@ const pendingRegistrationSchema = new mongoose.Schema({
     trim: true,
   },
   dob: {
-    day: { type: Number, required: true },
-    month: { type: Number, required: true },
-    year: { type: Number, required: true },
-  },
+  day: { type: Number },
+  month: { type: Number },
+  year: { type: Number },
+},
   password: {
     type: String,
     required: true,
