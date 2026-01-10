@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import Contact from "../../model/ContactModel.js";
+import { sendEmail } from "../../utils/emailService.js";
 
 export const createContact = async (req, res) => {
   try {
@@ -15,17 +16,7 @@ export const createContact = async (req, res) => {
     });
     await newContact.save();
 
-    // Nodemailer setup
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.CONTACT_MAIL,
-        pass: process.env.CONTACT_MAIL_PASS,
-      },
-    });
-
     const mailOptions = {
-      from: email,
       to: process.env.CONTACT_MAIL,
       subject: "New Contact Form Submission",
       html: `
@@ -38,7 +29,7 @@ export const createContact = async (req, res) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendEmail(mailOptions);
 
     res.status(201).json({
       status: true,
